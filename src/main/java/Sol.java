@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Sol {
     private static final String VALID_COMMANDS =
@@ -6,6 +7,7 @@ public class Sol {
       + "  list\n"
       + "  mark <task number>\n"
       + "  unmark <task number>\n"
+      + "  delete <task number>\n"
       + "  todo <description>\n"
       + "  deadline <description> /by <time>\n"
       + "  event <description> /from <start> /to <end>\n"
@@ -22,8 +24,7 @@ public class Sol {
         System.out.println("Hello. I am\n" + logo);
         System.out.println("What would you like to do?");
         String input = "";
-        int index = 1;
-        Task[] tasks = new Task[101];
+        ArrayList<Task> tasks = new ArrayList<>();
 
         while (true) {
             input = scanner.nextLine();
@@ -31,22 +32,28 @@ public class Sol {
                 if (input.equals("bye")) {
                     break;
                 } else if (input.equals("list")) {
-                    for (int i = 1; i < index; i++) {
-                        System.out.println(i + ". " + tasks[i].toString());
+                    for (int i = 0; i < tasks.size(); i++) {
+                        System.out.println((i+1) + ". " + tasks.get(i));
                     }
                 } else if (input.matches("mark \\d+")) {
                     String[] parts = input.split(" ");
-                    int idx = Integer.parseInt(parts[1]);
-                    tasks[idx].markDone();
+                    int idx = Integer.parseInt(parts[1]) - 1;
+                    tasks.get(idx).markDone();
                     System.out.println("Marked the below task as completed.");
-                    System.out.println("   " + tasks[idx].toString());
+                    System.out.println("   " + tasks.get(idx));
                 } else if (input.matches("unmark \\d+")) {
                     String[] parts = input.split(" ");
-                    int idx = Integer.parseInt(parts[1]);
-                    tasks[idx].markUndone();
+                    int idx = Integer.parseInt(parts[1]) - 1;
+                    tasks.get(idx).markUndone();
                     System.out.println("Marked the below task as incomplete.");
-                    System.out.println("   " + tasks[idx].toString());
-                } 
+                    System.out.println("   " + tasks.get(idx));
+                } else if (input.matches("delete \\d+")) {
+                    String[] parts = input.split(" ");
+                    int idx = Integer.parseInt(parts[1]) - 1;
+                    System.out.println("Removed the below task from the list.");
+                    System.out.println("   " + tasks.get(idx));
+                    tasks.remove(idx);
+                }
                 else {
                     String[] parts = input.split(" ", 2);
                     String type = parts[0];
@@ -80,10 +87,9 @@ public class Sol {
                     } else {
                         throw new SolException("Invalid command.\n" + VALID_COMMANDS);
                     }
-                    tasks[index] = task;
-                    System.out.println("Added: " + tasks[index].toString());
-                    System.out.println("You have " + index + " tasks in this list.");
-                    index++;
+                    tasks.add(task);
+                    System.out.println("Added: " + task);
+                    System.out.println("You have " + tasks.size() + " tasks in this list.");
                 }
             } catch (SolException e) {
                 System.out.println(e.getMessage());
