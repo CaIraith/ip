@@ -1,0 +1,13 @@
+todo Fry egg
+todo Cook rice
+deadline Homework /by Sunday 12pm
+deadline Watch lecture /by neverr
+event Tutorial /from Monday 11am /to Monday 12pm
+list
+mark 1
+mark 2
+mark 3
+list
+unmark 2
+list
+bye

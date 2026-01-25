@@ -3,3 +3,39 @@ Hello. I am
  \___ \ / _ \| |
   ___) | (_) | |
  |____/ \___/|_|
+
+What would you like to do?
+Added: [T][ ] Fry egg
+You have 1 tasks in this list.
+Added: [T][ ] Cook rice
+You have 2 tasks in this list.
+Added: [D][ ] Homework (by: Sunday 12pm)
+You have 3 tasks in this list.
+Added: [D][ ] Watch lecture (by: neverr)
+You have 4 tasks in this list.
+Added: [E][ ] Tutorial (from: Monday 11am to: Monday 12pm)
+You have 5 tasks in this list.
+1. [T][ ] Fry egg
+2. [T][ ] Cook rice
+3. [D][ ] Homework (by: Sunday 12pm)
+4. [D][ ] Watch lecture (by: neverr)
+5. [E][ ] Tutorial (from: Monday 11am to: Monday 12pm)
+Marked the below task as completed.
+   [T][X] Fry egg
+Marked the below task as completed.
+   [T][X] Cook rice
+Marked the below task as completed.
+   [D][X] Homework (by: Sunday 12pm)
+1. [T][X] Fry egg
+2. [T][X] Cook rice
+3. [D][X] Homework (by: Sunday 12pm)
+4. [D][ ] Watch lecture (by: neverr)
+5. [E][ ] Tutorial (from: Monday 11am to: Monday 12pm)
+Marked the below task as incomplete.
+   [T][ ] Cook rice
+1. [T][X] Fry egg
+2. [T][ ] Cook rice
+3. [D][X] Homework (by: Sunday 12pm)
+4. [D][ ] Watch lecture (by: neverr)
+5. [E][ ] Tutorial (from: Monday 11am to: Monday 12pm)
+Goodbye. See you next time.
