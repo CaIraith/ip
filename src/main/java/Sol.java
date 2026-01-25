@@ -12,12 +12,21 @@ public class Sol {
         System.out.println("Hello. I am\n" + logo);
         System.out.println("What would you like to do?");
         String input = "";
+        int index = 0;
+        String[] tasks = new String[100];
         while (true) {
             input = scanner.nextLine();
             if (input.equals("bye")) {
                 break;
-            } else {
-                System.out.println("You said: " + input);
+            } else if (input.equals("list")) {
+                for (int i = 0; i < index; i++) {
+                    System.out.println(i+1 + ". " + tasks[i]);
+                }
+            }
+            else {
+                System.out.println("Added: " + input);
+                tasks[index] = input;
+                index++;
             }
         }
         System.out.println("Goodbye. See you next time.");
