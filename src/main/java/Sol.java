@@ -24,7 +24,7 @@ public class Sol {
         System.out.println("Hello. I am\n" + logo);
         System.out.println("What would you like to do?");
         String input = "";
-        ArrayList<Task> tasks = new ArrayList<>();
+        ArrayList<Task> tasks = Storage.loadTasks();
 
         while (true) {
             input = scanner.nextLine();
@@ -39,12 +39,14 @@ public class Sol {
                     String[] parts = input.split(" ");
                     int idx = Integer.parseInt(parts[1]) - 1;
                     tasks.get(idx).markDone();
+                    Storage.saveTasks(tasks);
                     System.out.println("Marked the below task as completed.");
                     System.out.println("   " + tasks.get(idx));
                 } else if (input.matches("unmark \\d+")) {
                     String[] parts = input.split(" ");
                     int idx = Integer.parseInt(parts[1]) - 1;
                     tasks.get(idx).markUndone();
+                    Storage.saveTasks(tasks);
                     System.out.println("Marked the below task as incomplete.");
                     System.out.println("   " + tasks.get(idx));
                 } else if (input.matches("delete \\d+")) {
@@ -53,6 +55,7 @@ public class Sol {
                     System.out.println("Removed the below task from the list.");
                     System.out.println("   " + tasks.get(idx));
                     tasks.remove(idx);
+                    Storage.saveTasks(tasks);
                 }
                 else {
                     String[] parts = input.split(" ", 2);
@@ -88,6 +91,7 @@ public class Sol {
                         throw new SolException("Invalid command.\n" + VALID_COMMANDS);
                     }
                     tasks.add(task);
+                    Storage.saveTasks(tasks);
                     System.out.println("Added: " + task);
                     System.out.println("You have " + tasks.size() + " tasks in this list.");
                 }
