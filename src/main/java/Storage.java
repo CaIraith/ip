@@ -7,11 +7,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Storage {
-    private static final String FILE_PATH = "data/tasks.txt";
+    private String filePath;
 
-    public static ArrayList<Task> loadTasks() {
+    public Storage(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public ArrayList<Task> loadTasks() {
         ArrayList<Task> tasks = new ArrayList<>();
-        File file = new File(FILE_PATH);
+        File file = new File(filePath);
 
         if (!file.exists()) {
             return tasks;
@@ -29,11 +33,10 @@ public class Storage {
         return tasks;
     }
 
-    public static void saveTasks(ArrayList<Task> tasks) {
+    public void saveTasks(ArrayList<Task> tasks) {
         try {
-            new File("data").mkdirs();
-
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH))) {
+            new File(filePath).getParentFile().mkdirs();
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
                 for (Task task : tasks) {
                     writer.write(task.toFileString());
                     writer.newLine();
