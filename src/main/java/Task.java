@@ -15,13 +15,41 @@ public class Task {
         this.isDone = false;
     }
 
+    public String toFileString() {
+        return (isDone ? "1" : "0") + " | " + description;
+    }
+
+    public static Task fromFileString(String line) {
+        String[] parts = line.split(" \\| ");
+
+        String type = parts[0];
+        boolean isDone = parts[1].equals("1");
+
+        Task task;
+
+        switch (type) {
+        case "T":
+            task = new ToDo(parts[2]);
+            break;
+        case "D":
+            task = new Deadline(parts[2], parts[3]);
+            break;
+        case "E":
+            task = new Event(parts[2], parts[3], parts[4]);
+            break;
+        default:
+            throw new IllegalArgumentException("Unknown task type");
+        }
+
+        if (isDone) {
+            task.markDone();
+        }
+
+        return task;
+    }
+
     @Override
     public String toString() {
-        if (this.isDone) {
-            return "[X] " + this.description;
-        } else {
-            return "[ ] " + this.description;
-        }
+        return (isDone ? "[X] " : "[ ] ") + description;
     }
 }
-
