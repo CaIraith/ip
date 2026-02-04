@@ -1,3 +1,5 @@
+package sol;
+
 public class Parser {
     public static final String VALID_COMMANDS =
         "Valid commands:\n"

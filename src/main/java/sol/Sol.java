@@ -1,3 +1,5 @@
+package sol;
+
 public class Sol {
 
     private Storage storage;

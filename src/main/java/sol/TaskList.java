@@ -1,3 +1,5 @@
+package sol;
+
 import java.util.ArrayList;
 
 public class TaskList {
