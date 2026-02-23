@@ -14,6 +14,8 @@ public class Task {
     public Task(String description) {
         this.description = description;
         this.isDone = false;
+
+        assert description != null : "Task description cannot be null";
     }
 
     public String getDescription() {
@@ -46,7 +48,9 @@ public class Task {
      * @throws IllegalArgumentException if the task type is unknown
      */
     public static Task fromFileString(String line) {
+        assert line != null && !line.isBlank() : "Input line must not be null or empty";
         String[] parts = line.split(" \\| ");
+        assert parts.length >= 3 : "Line must have at least 3 parts: type, done, description";
 
         String type = parts[0];
         boolean isDone = parts[1].equals("1");
@@ -58,9 +62,11 @@ public class Task {
             task = new ToDo(parts[2]);
             break;
         case "D":
+            assert parts.length == 4 : "Deadline must have description and date";
             task = new Deadline(parts[2], parts[3]);
             break;
         case "E":
+            assert parts.length == 5 : "Event must have description, start, and end date";
             task = new Event(parts[2], parts[3], parts[4]);
             break;
         default:

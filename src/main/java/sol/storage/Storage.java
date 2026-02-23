@@ -1,14 +1,9 @@
 package sol.storage;
 
-import sol.task.Task;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.File;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+
+import sol.task.Task;
 
 /**
  * Handles reading from and writing to a file to persist tasks.
@@ -25,6 +20,7 @@ public class Storage {
      */
     public Storage(String filePath) {
         this.filePath = filePath;
+        assert filePath != null && !filePath.isBlank() : "File path cannot be null or empty";
     }
 
     /**
@@ -50,6 +46,7 @@ public class Storage {
             }
         } catch (IOException e) {
             System.out.println("Error loading tasks.");
+            assert false : "IOException occurred while loading tasks";
         }
 
         return tasks;
@@ -64,6 +61,8 @@ public class Storage {
      * @param tasks ArrayList of Task objects to be saved
      */
     public void saveTasks(ArrayList<Task> tasks) {
+        assert tasks != null : "Task list cannot be null";
+
         try {
             new File(filePath).getParentFile().mkdirs();
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
