@@ -2,8 +2,13 @@ package sol.ui;
 
 import java.util.Scanner;
 
+/**
+ * Handles all user interactions in the Sol application.
+ * <p>
+ * Provides methods to display messages, read user input, and show errors.
+ */
 public class Ui {
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public Ui() {
         this.scanner = new Scanner(System.in);
