@@ -1,4 +1,0 @@
-T | 0 | sleep
-D | 1 | project | 2024-08-19
-T | 0 | floss
-D | 0 | lecture | 2026-11-13

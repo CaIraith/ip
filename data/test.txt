@@ -1,0 +1,6 @@
+T | 1 | Study
+T | 0 | Do homework
+T | 0 | Do homework
+T | 0 | Do homework
+T | 0 | Do homework
+T | 0 | Do homework
