@@ -5,10 +5,7 @@ import java.util.stream.IntStream;
 
 import sol.parser.Parser;
 import sol.storage.Storage;
-import sol.task.Deadline;
-import sol.task.Event;
-import sol.task.Task;
-import sol.task.ToDo;
+import sol.task.*;
 import sol.ui.Ui;
 
 /**
@@ -105,12 +102,23 @@ public class Sol {
                     ui.showMessage("You now have " + tasks.size() + " tasks.");
                     break;
 
-                    case "event":
-                        Task event = getEvent(args);
-                        tasks.addTask(event);
-                        ui.showMessage("Added: " + event);
-                        ui.showMessage("You now have " + tasks.size() + " tasks.");
-                        break;
+                case "event":
+                    Task event = getEvent(args);
+                    tasks.addTask(event);
+                    ui.showMessage("Added: " + event);
+                    ui.showMessage("You now have " + tasks.size() + " tasks.");
+                    break;
+
+                case "timed":
+                    if (!args.contains(" /duration ")) {
+                        throw new SolException("Timed tasks must include /duration <hours>\nUsage: timed <description> /duration <hours>");
+                    }
+                    String[] timedParts = args.split(" /duration ", 2);
+                    Task timedTask = new TimedTask(timedParts[0], Integer.parseInt(timedParts[1]));
+                    tasks.addTask(timedTask);
+                    ui.showMessage("Added: " + timedTask);
+                    ui.showMessage("You now have " + tasks.size() + " tasks.");
+                    break;
 
                 case "find":
                     if (args.isEmpty()) {

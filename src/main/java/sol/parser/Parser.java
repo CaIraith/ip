@@ -22,6 +22,7 @@ public class Parser {
                       todo <description>
                       deadline <description> /by <yyyy-MM-dd>
                       event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+                      timed <description> /duration <hours>
                       bye""";
 
     /**
