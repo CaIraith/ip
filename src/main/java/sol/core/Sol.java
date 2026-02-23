@@ -1,4 +1,12 @@
-package sol;
+package sol.core;
+
+import sol.parser.Parser;
+import sol.storage.Storage;
+import sol.task.Deadline;
+import sol.task.Event;
+import sol.task.Task;
+import sol.task.ToDo;
+import sol.ui.Ui;
 
 public class Sol {
 

@@ -1,4 +1,4 @@
-package sol;
+package sol.task;
 
 public class Task {
     protected String description;

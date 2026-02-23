@@ -1,10 +1,13 @@
 package sol;
 
 import org.junit.jupiter.api.Test;
+import sol.core.SolException;
+import sol.parser.Parser;
+import sol.task.Deadline;
+import sol.task.Event;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.File;
 
 public class SolTest {
     @Test

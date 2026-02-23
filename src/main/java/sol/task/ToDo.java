@@ -1,4 +1,4 @@
-package sol;
+package sol.task;
 
 public class ToDo extends Task {
     public ToDo(String description) {

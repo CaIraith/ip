@@ -1,4 +1,7 @@
-package sol;
+package sol.core;
+
+import sol.storage.Storage;
+import sol.task.Task;
 
 import java.util.ArrayList;
 

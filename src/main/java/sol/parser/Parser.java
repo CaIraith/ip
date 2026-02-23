@@ -1,4 +1,6 @@
-package sol;
+package sol.parser;
+
+import sol.core.SolException;
 
 public class Parser {
     public static final String VALID_COMMANDS =

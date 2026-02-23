@@ -1,4 +1,4 @@
-package sol;
+package sol.ui;
 
 import java.util.Scanner;
 

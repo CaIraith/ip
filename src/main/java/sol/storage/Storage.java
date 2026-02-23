@@ -1,4 +1,6 @@
-package sol;
+package sol.storage;
+
+import sol.task.Task;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
