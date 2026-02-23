@@ -77,7 +77,7 @@ public class Sol {
                         break;
 
                     case "deadline":
-                        if (args.isEmpty() || !args.contains(" /by ")) {
+                        if (!args.contains(" /by ")) {
                             throw new SolException("Deadlines must include /by <yyyy-MM-dd>\nUsage: deadline <description> /by <yyyy-MM-dd>");
                         }
                         String[] deadlineParts = args.split(" /by ", 2);
@@ -88,7 +88,7 @@ public class Sol {
                         break;
 
                     case "event":
-                        if (args.isEmpty() || !args.contains(" /from ") || !args.contains(" /to ")) {
+                        if (!args.contains(" /from ") || !args.contains(" /to ")) {
                             throw new SolException("Events must include /from <yyyy-MM-dd> /to <yyyy-MM-dd>\nUsage: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>");
                         }
                         String[] fromParts = args.split(" /from ", 2);
