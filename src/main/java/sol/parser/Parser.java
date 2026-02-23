@@ -12,16 +12,17 @@ public class Parser {
      * A string containing all valid commands for display in error messages.
      */
     public static final String VALID_COMMANDS =
-        "Valid commands:\n"
-      + "  list\n"
-      + "  mark <task number>\n"
-      + "  unmark <task number>\n"
-      + "  delete <task number>\n"
-      + "  find <keyword>\n"
-      + "  todo <description>\n"
-      + "  deadline <description> /by <yyyy-MM-dd>\n"
-      + "  event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>\n"
-      + "  bye";
+            """
+                    Valid commands:
+                      list
+                      mark <task number>
+                      unmark <task number>
+                      delete <task number>
+                      find <keyword>
+                      todo <description>
+                      deadline <description> /by <yyyy-MM-dd>
+                      event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>
+                      bye""";
 
     /**
      * Returns the command type (first word) from the input string.
