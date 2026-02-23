@@ -9,6 +9,7 @@ public class Parser {
       + "  mark <task number>\n"
       + "  unmark <task number>\n"
       + "  delete <task number>\n"
+                + "  find <keyword>\n"
       + "  todo <description>\n"
       + "  deadline <description> /by <yyyy-MM-dd>\n"
       + "  event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>\n"

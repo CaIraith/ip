@@ -1,9 +1,9 @@
 package sol.core;
 
+import java.util.ArrayList;
+
 import sol.storage.Storage;
 import sol.task.Task;
-
-import java.util.ArrayList;
 
 public class TaskList {
     private ArrayList<Task> tasks;
@@ -39,6 +39,22 @@ public class TaskList {
         tasks.get(index).markUndone();
         storage.saveTasks(tasks);
         return tasks.get(index);
+    }
+
+    /**
+     * Finds all tasks that contain the given keyword in their description.
+     *
+     * @param keyword Keyword to search for
+     * @return ArrayList of tasks containing the keyword
+     */
+    public ArrayList<Task> findTasks(String keyword) {
+        ArrayList<Task> results = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                results.add(task);
+            }
+        }
+        return results;
     }
 
     public int size() {

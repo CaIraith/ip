@@ -1,5 +1,7 @@
 package sol.core;
 
+import java.util.ArrayList;
+
 import sol.parser.Parser;
 import sol.storage.Storage;
 import sol.task.Deadline;
@@ -99,6 +101,21 @@ public class Sol {
                         ui.showMessage("Added: " + event);
                         ui.showMessage("You now have " + tasks.size() + " tasks.");
                         break;
+
+                case "find":
+                    if (args.isEmpty()) {
+                        throw new SolException("Please provide a keyword to search for.\nUsage: find <keyword>");
+                    }
+                    ArrayList<Task> matches = tasks.findTasks(args);
+                    if (matches.isEmpty()) {
+                        ui.showMessage("No matching tasks found for keyword: " + args);
+                    } else {
+                        ui.showMessage("Matching tasks:");
+                        for (int i = 0; i < matches.size(); i++) {
+                            ui.showMessage((i + 1) + ". " + matches.get(i));
+                        }
+                    }
+                    break;
 
                     default:
                         throw new SolException("Invalid command.\n" + Parser.VALID_COMMANDS);
