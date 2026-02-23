@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import sol.storage.Storage;
 import sol.task.Task;
 
-import java.util.ArrayList;
-
 /**
  * Represents a list of tasks and handles operations on them.
  * <p>
@@ -14,8 +12,8 @@ import java.util.ArrayList;
  * and persisting changes via the Storage class.
  */
 public class TaskList {
-    private ArrayList<Task> tasks;
-    private Storage storage;
+    private final ArrayList<Task> tasks;
+    private final Storage storage;
 
     /**
      * Constructs a TaskList with a given storage.

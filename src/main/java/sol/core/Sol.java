@@ -15,10 +15,8 @@ import sol.ui.Ui;
  * Handles user interaction, command parsing, and task management.
  */
 public class Sol {
-
-    private Storage storage;
-    private TaskList tasks;
-    private Ui ui;
+    private final TaskList tasks;
+    private final Ui ui;
 
     /**
      * Constructs a Sol application instance.
@@ -27,7 +25,7 @@ public class Sol {
      */
     public Sol(String filePath) {
         ui = new Ui();
-        storage = new Storage(filePath);
+        Storage storage = new Storage(filePath);
         tasks = new TaskList(storage);
     }
 
@@ -40,10 +38,12 @@ public class Sol {
      */
     public void run() {
         String logo =
-                " / ___|  ___ | |\n"
-                        + " \\___ \\ / _ \\| |\n"
-                        + "  ___) | (_) | |\n"
-                        + " |____/ \\___/|_|\n";
+                """
+                         / ___|  ___ | |
+                         \\___ \\ / _ \\| |
+                          ___) | (_) | |
+                         |____/ \\___/|_|
+                        """;
 
         ui.showWelcome(logo);
 
@@ -106,13 +106,7 @@ public class Sol {
                     break;
 
                     case "event":
-                        if (!args.contains(" /from ") || !args.contains(" /to ")) {
-                            throw new SolException("Events must include /from <yyyy-MM-dd> /to <yyyy-MM-dd>\nUsage: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>");
-                        }
-                        String[] fromParts = args.split(" /from ", 2);
-                        String desc = fromParts[0];
-                        String[] toParts = fromParts[1].split(" /to ", 2);
-                        Task event = new Event(desc, toParts[0], toParts[1]);
+                        Task event = getEvent(args);
                         tasks.addTask(event);
                         ui.showMessage("Added: " + event);
                         ui.showMessage("You now have " + tasks.size() + " tasks.");
@@ -144,6 +138,16 @@ public class Sol {
 
         ui.showGoodbye();
         ui.close();
+    }
+
+    private static Task getEvent(String args) throws SolException {
+        if (!args.contains(" /from ") || !args.contains(" /to ")) {
+            throw new SolException("Events must include /from <yyyy-MM-dd> /to <yyyy-MM-dd>\nUsage: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>");
+        }
+        String[] fromParts = args.split(" /from ", 2);
+        String desc = fromParts[0];
+        String[] toParts = fromParts[1].split(" /to ", 2);
+        return new Event(desc, toParts[0], toParts[1]);
     }
 
     public static void main(String[] args) {
