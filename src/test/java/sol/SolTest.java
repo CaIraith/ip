@@ -9,7 +9,18 @@ import sol.task.Event;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * JUnit tests for the Sol application components.
+ * <p>
+ * Tests include parsing commands and verifying correct construction
+ * of Event and Deadline tasks.
+ */
 public class SolTest {
+    /**
+     * Tests that the Parser correctly splits the command type and arguments.
+     *
+     * @throws SolException if parsing fails unexpectedly
+     */
     @Test
     public void parseCommandTest() throws SolException {
         String input = "mark 1";
@@ -17,6 +28,10 @@ public class SolTest {
         assertEquals("1", Parser.getArguments(input));
     }
 
+    /**
+     * Tests that the Event constructor correctly initializes
+     * start and end dates and produces the expected string output.
+     */
     @Test
     public void eventConstructorTest() {
         Event e = new Event("Camp",
@@ -28,6 +43,10 @@ public class SolTest {
         assertEquals(expected, e.toString());
     }
 
+    /**
+     * Tests that the Deadline constructor correctly initializes
+     * the due date and produces the expected string output.
+     */
     @Test
     public void deadlineConstructorTest() {
         Deadline d = new Deadline("Submit report", "2026-03-01");

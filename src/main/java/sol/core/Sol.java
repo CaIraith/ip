@@ -8,18 +8,34 @@ import sol.task.Task;
 import sol.task.ToDo;
 import sol.ui.Ui;
 
+/**
+ * Main class for the Sol task management application.
+ * Handles user interaction, command parsing, and task management.
+ */
 public class Sol {
 
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Constructs a Sol application instance.
+     *
+     * @param filePath The path to the file used to save and load tasks.
+     */
     public Sol(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
         tasks = new TaskList(storage);
     }
 
+    /**
+     * Runs the main program loop of the Sol application.
+     * <p>
+     * This method displays the welcome message, reads user input,
+     * parses commands, executes task operations, and handles errors.
+     * The loop continues until the "bye" command is entered.
+     */
     public void run() {
         String logo =
                 " / ___|  ___ | |\n"

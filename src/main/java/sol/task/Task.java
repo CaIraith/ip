@@ -1,5 +1,12 @@
 package sol.task;
 
+/**
+ * Represents a generic task with a description and completion status.
+ * <p>
+ * This is the base class for all task types (ToDo, Deadline, Event).
+ * Provides methods to get description, mark as done/undone, and
+ * convert to/from file storage format.
+ */
 public class Task {
     protected String description;
     protected boolean isDone;
@@ -29,6 +36,15 @@ public class Task {
         return (isDone ? "1" : "0") + " | " + description;
     }
 
+    /**
+     * Creates a Task object from a string line read from file.
+     * <p>
+     * Determines the task type (T/D/E) and reconstructs the correct subclass.
+     *
+     * @param line String from file representing a task
+     * @return Task object (ToDo, Deadline, or Event)
+     * @throws IllegalArgumentException if the task type is unknown
+     */
     public static Task fromFileString(String line) {
         String[] parts = line.split(" \\| ");
 
