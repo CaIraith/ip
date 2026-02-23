@@ -6,16 +6,16 @@ package sol.task;
  * <p>
  * Example: "Read sales report (2 hours)".
  */
-public class TimedTask extends Task {
+public class FixedDuration extends Task {
     private final int durationHours; // duration in hours
 
     /**
-     * Constructs a TimedTask.
+     * Constructs a FixedDuration.
      *
      * @param description   Description of the task
      * @param durationHours Duration required to complete in hours (must be > 0)
      */
-    public TimedTask(String description, int durationHours) {
+    public FixedDuration(String description, int durationHours) {
         super(description);
         if (durationHours <= 0) {
             throw new IllegalArgumentException("Duration must be positive");
@@ -30,22 +30,22 @@ public class TimedTask extends Task {
     @Override
     public String toString() {
         // Used ChatGPT to generate String format
-        return "[TT]" + super.toString() + " (Duration: " + durationHours + " hours)";
+        return "[F]" + super.toString() + " (Duration: " + durationHours + " hours)";
     }
 
     @Override
     public String toFileString() {
-        return "TT | " + (isDone ? "1" : "0") + " | " + description + " | " + durationHours;
+        return "F | " + (isDone ? "1" : "0") + " | " + description + " | " + durationHours;
     }
 
     /**
-     * Reconstructs a TimedTask from a file string array.
+     * Reconstructs a FixedDuration from a file string array.
      *
      * @param parts Parts of the line split by " | "
-     * @return TimedTask object
+     * @return FixedDuration object
      */
-    public static TimedTask fromFileString(String[] parts) {
-        TimedTask t = new TimedTask(parts[2], Integer.parseInt(parts[3]));
+    public static FixedDuration fromFileString(String[] parts) {
+        FixedDuration t = new FixedDuration(parts[2], Integer.parseInt(parts[3]));
         if (parts[1].equals("1")) {
             t.markDone();
         }

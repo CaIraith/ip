@@ -69,8 +69,8 @@ public class Task {
             assert parts.length == 5 : "Event must have description, start, and end date";
             task = new Event(parts[2], parts[3], parts[4]);
             break;
-        case "TT":
-            task = TimedTask.fromFileString(parts);
+        case "F":
+            task = FixedDuration.fromFileString(parts);
             break;
         default:
             throw new IllegalArgumentException("Unknown task type");

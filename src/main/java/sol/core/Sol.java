@@ -109,12 +109,12 @@ public class Sol {
                     ui.showMessage("You now have " + tasks.size() + " tasks.");
                     break;
 
-                case "timed":
+                case "fixed":
                     if (!args.contains(" /duration ")) {
                         throw new SolException("Timed tasks must include /duration <hours>\nUsage: timed <description> /duration <hours>");
                     }
                     String[] timedParts = args.split(" /duration ", 2);
-                    Task timedTask = new TimedTask(timedParts[0], Integer.parseInt(timedParts[1]));
+                    Task timedTask = new FixedDuration(timedParts[0], Integer.parseInt(timedParts[1]));
                     tasks.addTask(timedTask);
                     ui.showMessage("Added: " + timedTask);
                     ui.showMessage("You now have " + tasks.size() + " tasks.");

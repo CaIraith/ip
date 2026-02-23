@@ -1,4 +1,1 @@
-T | 0 | do homework
-D | 0 | finish homework | 2026-02-24
-E | 0 | sleep | 2026-02-24 | 2026-03-24
-TT | 0 | long sleep | 14
+F | 0 | Project | 5
