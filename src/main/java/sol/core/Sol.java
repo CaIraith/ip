@@ -1,6 +1,7 @@
 package sol.core;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
 
 import sol.parser.Parser;
 import sol.storage.Storage;
@@ -61,9 +62,8 @@ public class Sol {
                     break;
 
                 case "list":
-                    for (int i = 0; i < tasks.size(); i++) {
-                        ui.showMessage((i + 1) + ". " + tasks.getTasks().get(i));
-                    }
+                    IntStream.range(0, tasks.size())
+                            .forEach(i -> ui.showMessage((i + 1) + ". " + tasks.getTasks().get(i)));
                     break;
 
                 case "mark":
@@ -116,7 +116,7 @@ public class Sol {
                     if (args.isEmpty()) {
                         throw new SolException("Please provide a keyword to search for.\nUsage: find <keyword>");
                     }
-                    ArrayList<Task> matches = tasks.findTasks(args);
+                    List<Task> matches = tasks.findTasks(args);
                     if (matches.isEmpty()) {
                         ui.showMessage("No matching tasks found for keyword: " + args);
                     } else {
