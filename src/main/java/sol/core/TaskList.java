@@ -1,9 +1,9 @@
 package sol.core;
 
+import java.util.ArrayList;
+
 import sol.storage.Storage;
 import sol.task.Task;
-
-import java.util.ArrayList;
 
 public class TaskList {
     private ArrayList<Task> tasks;

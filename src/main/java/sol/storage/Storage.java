@@ -1,21 +1,17 @@
 package sol.storage;
 
-import sol.task.Task;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.File;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+
+import sol.task.Task;
 
 public class Storage {
     private String filePath;
 
     public Storage() {
-        
+
     }
+
     public Storage(String filePath) {
         this.filePath = filePath;
     }
