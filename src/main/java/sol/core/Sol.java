@@ -1,5 +1,7 @@
 package sol.core;
 
+import java.util.ArrayList;
+
 import sol.parser.Parser;
 import sol.storage.Storage;
 import sol.task.Deadline;
@@ -103,17 +105,32 @@ public class Sol {
                     ui.showMessage("You now have " + tasks.size() + " tasks.");
                     break;
 
-                case "event":
-                    if (!args.contains(" /from ") || !args.contains(" /to ")) {
-                        throw new SolException("Events must include /from <yyyy-MM-dd> /to <yyyy-MM-dd>\nUsage: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>");
+                    case "event":
+                        if (!args.contains(" /from ") || !args.contains(" /to ")) {
+                            throw new SolException("Events must include /from <yyyy-MM-dd> /to <yyyy-MM-dd>\nUsage: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>");
+                        }
+                        String[] fromParts = args.split(" /from ", 2);
+                        String desc = fromParts[0];
+                        String[] toParts = fromParts[1].split(" /to ", 2);
+                        Task event = new Event(desc, toParts[0], toParts[1]);
+                        tasks.addTask(event);
+                        ui.showMessage("Added: " + event);
+                        ui.showMessage("You now have " + tasks.size() + " tasks.");
+                        break;
+
+                case "find":
+                    if (args.isEmpty()) {
+                        throw new SolException("Please provide a keyword to search for.\nUsage: find <keyword>");
                     }
-                    String[] fromParts = args.split(" /from ", 2);
-                    String desc = fromParts[0];
-                    String[] toParts = fromParts[1].split(" /to ", 2);
-                    Task event = new Event(desc, toParts[0], toParts[1]);
-                    tasks.addTask(event);
-                    ui.showMessage("Added: " + event);
-                    ui.showMessage("You now have " + tasks.size() + " tasks.");
+                    ArrayList<Task> matches = tasks.findTasks(args);
+                    if (matches.isEmpty()) {
+                        ui.showMessage("No matching tasks found for keyword: " + args);
+                    } else {
+                        ui.showMessage("Matching tasks:");
+                        for (int i = 0; i < matches.size(); i++) {
+                            ui.showMessage((i + 1) + ". " + matches.get(i));
+                        }
+                    }
                     break;
 
                 default:
