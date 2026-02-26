@@ -6,7 +6,6 @@ import java.util.stream.IntStream;
 import sol.parser.Parser;
 import sol.storage.Storage;
 import sol.task.*;
-import sol.ui.Ui;
 
 /**
  * Main class for the Sol task management application.
@@ -14,138 +13,13 @@ import sol.ui.Ui;
  */
 public class Sol {
     private final TaskList tasks;
-    private final Ui ui;
 
     /**
      * Constructs a Sol application instance.
-     *
-     * @param filePath The path to the file used to save and load tasks.
      */
-    public Sol(String filePath) {
-        ui = new Ui();
-        Storage storage = new Storage(filePath);
+    public Sol() {
+        Storage storage = new Storage("data/tasks.txt");
         tasks = new TaskList(storage);
-    }
-
-    /**
-     * Runs the main program loop of the Sol application.
-     * <p>
-     * This method displays the welcome message, reads user input,
-     * parses commands, executes task operations, and handles errors.
-     * The loop continues until the "bye" command is entered.
-     */
-    public void run() {
-        String logo =
-                """
-                         / ___|  ___ | |
-                         \\___ \\ / _ \\| |
-                          ___) | (_) | |
-                         |____/ \\___/|_|
-                        """;
-
-        ui.showWelcome(logo);
-
-        boolean isExit = false;
-        while (!isExit) {
-            String input = ui.readCommand();
-
-            try {
-                String type = Parser.getCommandType(input);
-                String args = Parser.getArguments(input);
-
-                switch (type) {
-                case "bye":
-                    isExit = true;
-                    break;
-
-                case "list":
-                    IntStream.range(0, tasks.size())
-                            .forEach(i -> ui.showMessage((i + 1) + ". " + tasks.getTasks().get(i)));
-                    break;
-
-                case "mark":
-                    Parser.validateNumberCommand(input, "mark");
-                    int markIdx = Integer.parseInt(args) - 1;
-                    ui.showMessage("Marked the below task as completed.\n   " + tasks.markTask(markIdx));
-                    break;
-
-                case "unmark":
-                    Parser.validateNumberCommand(input, "unmark");
-                    int unmarkIdx = Integer.parseInt(args) - 1;
-                    ui.showMessage("Marked the below task as incomplete.\n   " + tasks.unmarkTask(unmarkIdx));
-                    break;
-
-                case "delete":
-                    Parser.validateNumberCommand(input, "delete");
-                    int delIdx = Integer.parseInt(args) - 1;
-                    ui.showMessage("Removed the below task from the list.\n   " + tasks.deleteTask(delIdx));
-                    break;
-
-                case "todo":
-                    if (args.isEmpty()) {
-                        throw new SolException("The description of a ToDo cannot be empty.\nUsage: todo <description>");
-                    }
-                    Task todo = new ToDo(args);
-                    tasks.addTask(todo);
-                    ui.showMessage("Added: " + todo);
-                    ui.showMessage("You now have " + tasks.size() + " tasks.");
-                    break;
-
-                case "deadline":
-                    if (!args.contains(" /by ")) {
-                        throw new SolException("Deadlines must include /by <yyyy-MM-dd>\nUsage: deadline <description> /by <yyyy-MM-dd>");
-                    }
-                    String[] deadlineParts = args.split(" /by ", 2);
-                    Task deadline = new Deadline(deadlineParts[0], deadlineParts[1]);
-                    tasks.addTask(deadline);
-                    ui.showMessage("Added: " + deadline);
-                    ui.showMessage("You now have " + tasks.size() + " tasks.");
-                    break;
-
-                case "event":
-                    Task event = getEvent(args);
-                    tasks.addTask(event);
-                    ui.showMessage("Added: " + event);
-                    ui.showMessage("You now have " + tasks.size() + " tasks.");
-                    break;
-
-                case "fixed":
-                    if (!args.contains(" /duration ")) {
-                        throw new SolException("Timed tasks must include /duration <hours>\nUsage: timed <description> /duration <hours>");
-                    }
-                    String[] timedParts = args.split(" /duration ", 2);
-                    Task timedTask = new FixedDuration(timedParts[0], Integer.parseInt(timedParts[1]));
-                    tasks.addTask(timedTask);
-                    ui.showMessage("Added: " + timedTask);
-                    ui.showMessage("You now have " + tasks.size() + " tasks.");
-                    break;
-
-                case "find":
-                    if (args.isEmpty()) {
-                        throw new SolException("Please provide a keyword to search for.\nUsage: find <keyword>");
-                    }
-                    List<Task> matches = tasks.findTasks(args);
-                    if (matches.isEmpty()) {
-                        ui.showMessage("No matching tasks found for keyword: " + args);
-                    } else {
-                        ui.showMessage("Matching tasks:");
-                        for (int i = 0; i < matches.size(); i++) {
-                            ui.showMessage((i + 1) + ". " + matches.get(i));
-                        }
-                    }
-                    break;
-
-                default:
-                    throw new SolException("Invalid command.\n" + Parser.VALID_COMMANDS);
-                }
-
-            } catch (SolException e) {
-                ui.showError(e.getMessage());
-            }
-        }
-
-        ui.showGoodbye();
-        ui.close();
     }
 
     private static Task getEvent(String args) throws SolException {
@@ -158,7 +32,108 @@ public class Sol {
         return new Event(desc, toParts[0], toParts[1]);
     }
 
-    public static void main(String[] args) {
-        new Sol("data/tasks.txt").run();
+    /**
+     * Generates a response for the user's chat message.
+     */
+    public String getResponse(String input) {
+        try {
+            String type = Parser.getCommandType(input);
+            String args = Parser.getArguments(input);
+
+            switch (type) {
+            case "bye":
+                return "Goodbye. See you next time.";
+
+            case "list":
+                if (tasks.size() == 0) {
+                    return "Your task list is empty.";
+                }
+                StringBuilder listOutput = new StringBuilder("Here are your tasks:\n");
+                IntStream.range(0, tasks.size())
+                        .forEach(i -> listOutput.append((i + 1))
+                                .append(". ")
+                                .append(tasks.getTasks().get(i))
+                                .append("\n"));
+                return listOutput.toString();
+
+            case "mark":
+                Parser.validateNumberCommand(input, "mark");
+                int markIdx = Integer.parseInt(args) - 1;
+                return "Marked the below task as completed.\n   "
+                        + tasks.markTask(markIdx);
+
+            case "unmark":
+                Parser.validateNumberCommand(input, "unmark");
+                int unmarkIdx = Integer.parseInt(args) - 1;
+                return "Marked the below task as incomplete.\n   "
+                        + tasks.unmarkTask(unmarkIdx);
+
+            case "delete":
+                Parser.validateNumberCommand(input, "delete");
+                int delIdx = Integer.parseInt(args) - 1;
+                return "Removed the below task from the list.\n   "
+                        + tasks.deleteTask(delIdx)
+                        + "\nYou now have " + tasks.size() + " tasks.";
+
+            case "todo":
+                if (args.isEmpty()) {
+                    throw new SolException("The description of a ToDo cannot be empty.\nUsage: todo <description>");
+                }
+                Task todo = new ToDo(args);
+                tasks.addTask(todo);
+                return "Added:\n   " + todo
+                        + "\nYou now have " + tasks.size() + " tasks.";
+
+            case "deadline":
+                if (!args.contains(" /by ")) {
+                    throw new SolException("Deadlines must include /by <yyyy-MM-dd>");
+                }
+                String[] deadlineParts = args.split(" /by ", 2);
+                Task deadline = new Deadline(deadlineParts[0], deadlineParts[1]);
+                tasks.addTask(deadline);
+                return "Added:\n   " + deadline
+                        + "\nYou now have " + tasks.size() + " tasks.";
+
+            case "event":
+                Task event = getEvent(args);
+                tasks.addTask(event);
+                return "Added:\n   " + event
+                        + "\nYou now have " + tasks.size() + " tasks.";
+
+            case "fixed":
+                if (!args.contains(" /duration ")) {
+                    throw new SolException("Timed tasks must include /duration <hours>");
+                }
+                String[] timedParts = args.split(" /duration ", 2);
+                Task timedTask = new FixedDuration(timedParts[0],
+                        Integer.parseInt(timedParts[1]));
+                tasks.addTask(timedTask);
+                return "Added:\n   " + timedTask
+                        + "\nYou now have " + tasks.size() + " tasks.";
+
+            case "find":
+                if (args.isEmpty()) {
+                    throw new SolException("Please provide a keyword to search for.");
+                }
+                List<Task> matches = tasks.findTasks(args);
+                if (matches.isEmpty()) {
+                    return "No matching tasks found for keyword: " + args;
+                }
+                StringBuilder findOutput = new StringBuilder("Matching tasks:\n");
+                for (int i = 0; i < matches.size(); i++) {
+                    findOutput.append(i + 1)
+                            .append(". ")
+                            .append(matches.get(i))
+                            .append("\n");
+                }
+                return findOutput.toString();
+
+            default:
+                throw new SolException("Invalid command.\n" + Parser.VALID_COMMANDS);
+            }
+
+        } catch (SolException e) {
+            return e.getMessage();
+        }
     }
 }
