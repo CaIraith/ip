@@ -22,6 +22,11 @@ public class Sol {
         tasks = new TaskList(storage);
     }
 
+    public Sol(String filepath) {
+        Storage storage = new Storage(filepath);
+        tasks = new TaskList(storage);
+    }
+
     private static Task getEvent(String args) throws SolException {
         if (!args.contains(" /from ") || !args.contains(" /to ")) {
             throw new SolException("Events must include /from <yyyy-MM-dd> /to <yyyy-MM-dd>\nUsage: event <description> /from <yyyy-MM-dd> /to <yyyy-MM-dd>");

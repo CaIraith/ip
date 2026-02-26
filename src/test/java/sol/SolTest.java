@@ -1,13 +1,10 @@
 package sol;
 
-import org.junit.jupiter.api.Test;
-import sol.core.SolException;
-import sol.parser.Parser;
-import sol.task.Deadline;
-import sol.task.Event;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
+
+import sol.core.Sol;
 
 /**
  * JUnit tests for the Sol application components.
@@ -16,43 +13,53 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * of Event and Deadline tasks.
  */
 public class SolTest {
+
     /**
-     * Tests that the Parser correctly splits the command type and arguments.
+     * Tests that a deadline task added via Sol#getResponse(String)
+     * is correctly persisted to storage and reloaded when a new
+     * Sol instance is created.
      *
-     * @throws SolException if parsing fails unexpectedly
+     * <p>This test verifies integration between command parsing,
+     * task creation, storage saving, and storage loading.
+     * It simulates an application restart by creating a second
+     * Sol instance using the same file path.</p>
+     *
+     * Expected behavior:
+     * - The added deadline task is written to file.
+     * - A new Sol instance loads the task from file.
+     * - The task appears when the "list" command is executed.
      */
     @Test
-    public void parseCommandTest() throws SolException {
-        String input = "mark 1";
-        assertEquals("mark", Parser.getCommandType(input));
-        assertEquals("1", Parser.getArguments(input));
+    void addDeadline_taskIsPersistedAndReloaded_correctlyLoaded() {
+        Sol sol = new Sol("data/test_tasks.txt");
+
+        sol.getResponse("deadline Submit report /by 2026-03-01");
+
+        // Simulate restart
+        Sol solReloaded = new Sol("data/test_tasks.txt");
+        String response = solReloaded.getResponse("list");
+
+        assertTrue(response.contains("Submit report"));
     }
 
     /**
-     * Tests that the Event constructor correctly initializes
-     * start and end dates and produces the expected string output.
+     * Tests that adding a deadline without the required "/by"
+     * keyword returns an appropriate error message.
+     *
+     * <p>This test verifies that command validation logic
+     * correctly detects malformed deadline commands and
+     * prevents invalid tasks from being added.</p>
+     * <p>
+     * Expected behavior:
+     * - The command is rejected.
+     * - An error message indicating the correct usage is returned.
      */
     @Test
-    public void eventConstructorTest() {
-        Event e = new Event("Camp",
-                "2026-03-01",
-                "2026-03-05");
+    void addDeadline_missingByKeyword_returnsErrorMessage() {
+        Sol sol = new Sol("data/test.txt");
 
-        String expected = "[E][ ] Camp (from: Mar 01 2026 to: Mar 05 2026)";
+        String response = sol.getResponse("deadline Submit report 2026-03-01");
 
-        assertEquals(expected, e.toString());
-    }
-
-    /**
-     * Tests that the Deadline constructor correctly initializes
-     * the due date and produces the expected string output.
-     */
-    @Test
-    public void deadlineConstructorTest() {
-        Deadline d = new Deadline("Submit report", "2026-03-01");
-
-        String expected = "[D][ ] Submit report (by: Mar 01 2026)";
-
-        assertEquals(expected, d.toString());
+        assertTrue(response.contains("Deadlines must include /by"));
     }
 }
