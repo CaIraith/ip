@@ -1,0 +1,2 @@
+T | 1 | Eat dinner
+F | 0 | Sleep | 10
