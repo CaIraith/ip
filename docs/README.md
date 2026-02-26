@@ -1,6 +1,6 @@
 # Sol User Guide
 
-![ui.png](ui.png)
+![ui.png](Ui.png)
 
 Sol is a simple text-based chatbot to help you manage tasks, deadlines, events, and timed tasks.
 
