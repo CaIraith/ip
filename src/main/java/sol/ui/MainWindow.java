@@ -34,10 +34,10 @@ public class MainWindow extends AnchorPane {
     }
 
     /**
-     * Injects the Duke instance
+     * Injects the Sol instance
      */
-    public void setDuke(Sol d) {
-        sol = d;
+    public void setSol(Sol s) {
+        sol = s;
     }
 
     /**
